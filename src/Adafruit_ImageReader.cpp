@@ -45,11 +45,11 @@
 // on screen or image size.)
 
 #ifdef __AVR__
- #define DRAWPIXELS  24 ///<  24 * 5 =  120 bytes
- #define LOADPIXELS  32 ///<  32 * 3 =   96 bytes
+#define DRAWPIXELS 24 ///<  24 * 5 =  120 bytes
+#define LOADPIXELS 32 ///<  32 * 3 =   96 bytes
 #else
- #define DRAWPIXELS 200 ///< 200 * 5 = 1000 bytes
- #define LOADPIXELS 320 ///< 320 * 3 =  960 bytes
+#define DRAWPIXELS 200 ///< 200 * 5 = 1000 bytes
+#define LOADPIXELS 320 ///< 320 * 3 =  960 bytes
 #endif
 
 // ADAFRUIT_IMAGE CLASS ****************************************************
@@ -63,7 +63,8 @@
     @return  'Empty' Adafruit_Image object.
 */
 Adafruit_Image::Adafruit_Image(void) : mask(NULL), palette(NULL),
-  format(IMAGE_NONE) {
+                                       format(IMAGE_NONE)
+{
   canvas.canvas1 = NULL;
 }
 
@@ -71,7 +72,8 @@ Adafruit_Image::Adafruit_Image(void) : mask(NULL), palette(NULL),
     @brief   Destructor.
     @return  None (void).
 */
-Adafruit_Image::~Adafruit_Image(void) {
+Adafruit_Image::~Adafruit_Image(void)
+{
   dealloc();
 }
 
@@ -80,28 +82,39 @@ Adafruit_Image::~Adafruit_Image(void) {
              and resets member variables to 'empty' state.
     @return  None (void).
 */
-void Adafruit_Image::dealloc(void) {
-  if(format == IMAGE_1 ) {
-    if(canvas.canvas1) {
+void Adafruit_Image::dealloc(void)
+{
+  if (format == IMAGE_1)
+  {
+    if (canvas.canvas1)
+    {
       delete canvas.canvas1;
       canvas.canvas1 = NULL;
     }
-  } else if(format == IMAGE_8 ) {
-    if(canvas.canvas8) {
+  }
+  else if (format == IMAGE_8)
+  {
+    if (canvas.canvas8)
+    {
       delete canvas.canvas8;
       canvas.canvas8 = NULL;
     }
-  } else if(format == IMAGE_16) {
-    if(canvas.canvas16) {
+  }
+  else if (format == IMAGE_16)
+  {
+    if (canvas.canvas16)
+    {
       delete canvas.canvas16;
       canvas.canvas16 = NULL;
     }
   }
-  if(mask) {
+  if (mask)
+  {
     delete mask;
     mask = NULL;
   }
-  if(palette) {
+  if (palette)
+  {
     delete[] palette;
     palette = NULL;
   }
@@ -112,11 +125,16 @@ void Adafruit_Image::dealloc(void) {
     @brief   Get width of Adafruit_Image object.
     @return  Width in pixels, or 0 if no image loaded.
 */
-int16_t Adafruit_Image::width(void) {
-  if(format != IMAGE_NONE) { // Image allocated?
-    if(     format == IMAGE_1 ) return canvas.canvas1->width();
-    else if(format == IMAGE_8 ) return canvas.canvas8->width();
-    else if(format == IMAGE_16) return canvas.canvas16->width();
+int16_t Adafruit_Image::width(void)
+{
+  if (format != IMAGE_NONE)
+  { // Image allocated?
+    if (format == IMAGE_1)
+      return canvas.canvas1->width();
+    else if (format == IMAGE_8)
+      return canvas.canvas8->width();
+    else if (format == IMAGE_16)
+      return canvas.canvas16->width();
   }
   return 0;
 }
@@ -125,11 +143,16 @@ int16_t Adafruit_Image::width(void) {
     @brief   Get height of Adafruit_Image object.
     @return  Height in pixels, or 0 if no image loaded.
 */
-int16_t Adafruit_Image::height(void) {
-  if(format != IMAGE_NONE) { // Image allocated?
-    if(     format == IMAGE_1 ) return canvas.canvas1->height();
-    else if(format == IMAGE_8 ) return canvas.canvas8->height();
-    else if(format == IMAGE_16) return canvas.canvas16->height();
+int16_t Adafruit_Image::height(void)
+{
+  if (format != IMAGE_NONE)
+  { // Image allocated?
+    if (format == IMAGE_1)
+      return canvas.canvas1->height();
+    else if (format == IMAGE_8)
+      return canvas.canvas8->height();
+    else if (format == IMAGE_16)
+      return canvas.canvas16->height();
   }
   return 0;
 }
@@ -146,12 +169,18 @@ int16_t Adafruit_Image::height(void) {
              Vertical offset in pixels; top edge = 0, positive = down.
     @return  None (void).
 */
-void Adafruit_Image::draw(Adafruit_SPITFT &tft, int16_t x, int16_t y) {
-  if(format == IMAGE_1 ) {
-  } else if(format == IMAGE_8 ) {
-  } else if(format == IMAGE_16) {
+void Adafruit_Image::draw(Adafruit_SPITFT &tft, int16_t x, int16_t y)
+{
+  if (format == IMAGE_1)
+  {
+  }
+  else if (format == IMAGE_8)
+  {
+  }
+  else if (format == IMAGE_16)
+  {
     tft.drawRGBBitmap(x, y, canvas.canvas16->getBuffer(),
-      canvas.canvas16->width(), canvas.canvas16->height());
+                      canvas.canvas16->width(), canvas.canvas16->height());
   }
 }
 
@@ -162,15 +191,18 @@ void Adafruit_Image::draw(Adafruit_SPITFT &tft, int16_t x, int16_t y) {
     @brief   Constructor.
     @return  Adafruit_ImageReader object.
 */
-Adafruit_ImageReader::Adafruit_ImageReader(void) {
+Adafruit_ImageReader::Adafruit_ImageReader(void)
+{
 }
 
 /*!
     @brief   Destructor.
     @return  None (void).
 */
-Adafruit_ImageReader::~Adafruit_ImageReader(void) {
-  if(file) file.close();
+Adafruit_ImageReader::~Adafruit_ImageReader(void)
+{
+  if (file)
+    file.close();
 }
 
 /*!
@@ -194,7 +226,8 @@ Adafruit_ImageReader::~Adafruit_ImageReader(void) {
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::drawBMP(char *filename,
-  Adafruit_SPITFT &tft, int16_t x, int16_t y, boolean transact) {
+                                              Adafruit_SPITFT &tft, int16_t x, int16_t y, boolean transact)
+{
   uint16_t tftbuf[DRAWPIXELS]; // Temp space for buffering TFT data
   // Call core BMP-reading function, passing address to TFT object,
   // TFT working buffer, and X & Y position of top-left corner (image
@@ -217,7 +250,8 @@ ImageReturnCode Adafruit_ImageReader::drawBMP(char *filename,
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::loadBMP(
-  char *filename, Adafruit_Image &img) {
+    char *filename, Adafruit_Image &img)
+{
   // Call core BMP-reading function. TFT and working buffer are NULL
   // (unused and allocated in function, respectively), X & Y position are
   // always 0 because full image is loaded (RAM permitting). Adafruit_Image
@@ -254,118 +288,138 @@ ImageReturnCode Adafruit_ImageReader::loadBMP(
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::coreBMP(
-  char            *filename,   // SD file to load
-  Adafruit_SPITFT *tft,        // Pointer to TFT object, or NULL if to image
-  uint16_t        *dest,       // TFT working buffer, or NULL if to canvas
-  int16_t          x,          // Position if loading to TFT (else ignored)
-  int16_t          y,
-  Adafruit_Image  *img,        // NULL if load-to-screen
-  boolean          transact) { // SD & TFT sharing bus, use transactions
+    char *filename,       // SD file to load
+    Adafruit_SPITFT *tft, // Pointer to TFT object, or NULL if to image
+    uint16_t *dest,       // TFT working buffer, or NULL if to canvas
+    int16_t x,            // Position if loading to TFT (else ignored)
+    int16_t y,
+    Adafruit_Image *img, // NULL if load-to-screen
+    boolean transact)
+{ // SD & TFT sharing bus, use transactions
 
-  ImageReturnCode status  = IMAGE_ERR_FORMAT; // IMAGE_SUCCESS on valid file
-  uint32_t        offset;                     // Start of image data in file
-  uint32_t        headerSize;                 // Indicates BMP version
-  int             bmpWidth, bmpHeight;        // BMP width & height in pixels
-  uint8_t         planes;                     // BMP planes
-  uint8_t         depth;                      // BMP bit depth
-  uint32_t        compression = 0;            // BMP compression mode
-  uint32_t        rowSize;                    // >bmpWidth if scanline padding
-  uint8_t         sdbuf[3*DRAWPIXELS];        // BMP read buf (R+G+B/pixel)
-#if ((3*DRAWPIXELS) <= 255)
-  uint8_t         srcidx      = sizeof sdbuf; // Current position in sdbuf
+  ImageReturnCode status = IMAGE_ERR_FORMAT; // IMAGE_SUCCESS on valid file
+  uint32_t offset;                           // Start of image data in file
+  uint32_t headerSize;                       // Indicates BMP version
+  int bmpWidth, bmpHeight;                   // BMP width & height in pixels
+  uint8_t planes;                            // BMP planes
+  uint8_t depth;                             // BMP bit depth
+  uint32_t compression = 0;                  // BMP compression mode
+  uint32_t rowSize;                          // >bmpWidth if scanline padding
+  uint8_t sdbuf[3 * DRAWPIXELS];             // BMP read buf (R+G+B/pixel)
+#if ((3 * DRAWPIXELS) <= 255)
+  uint8_t srcidx = sizeof sdbuf; // Current position in sdbuf
 #else
-  uint16_t        srcidx      = sizeof sdbuf;
+  uint16_t srcidx = sizeof sdbuf;
 #endif
-  uint32_t        destidx     = 0;
-  boolean         flip        = true;         // BMP is stored bottom-to-top
-  uint32_t        bmpPos      = 0;            // Next pixel position in file
-  int             loadWidth, loadHeight,      // Region being loaded (clipped)
-                  loadX    , loadY;           // "
-  int             row, col;                   // Current pixel pos.
-  uint8_t         r, g, b;                    // Current pixel color
+  uint32_t destidx = 0;
+  boolean flip = true;       // BMP is stored bottom-to-top
+  uint32_t bmpPos = 0;       // Next pixel position in file
+  int loadWidth, loadHeight, // Region being loaded (clipped)
+      loadX, loadY;          // "
+  int row, col;              // Current pixel pos.
+  uint8_t r, g, b;           // Current pixel color
 
   // If an Adafruit_Image object is passed and currently contains anything,
   // free its contents as it's about to be overwritten with new stuff.
-  if(img) img->dealloc();
+  if (img)
+    img->dealloc();
 
   // If BMP is being drawn off the right or bottom edge of the screen,
   // nothing to do here. NOT an error, just a trivial clip operation.
-  if(tft && ((x >= tft->width()) || (y >= tft->height())))
+  if (tft && ((x >= tft->width()) || (y >= tft->height())))
     return IMAGE_SUCCESS;
 
   // Open requested file on SD card
-  if(!(file = SD.open(filename))) return IMAGE_ERR_FILE_NOT_FOUND;
+  if (!(file = SD.open(filename)))
+    return IMAGE_ERR_FILE_NOT_FOUND;
 
   // Parse BMP header. 0x4D42 (ASCII 'BM') is the Windows BMP signature.
   // There are other values possible in a .BMP file but these are super
   // esoteric (e.g. OS/2 struct bitmap array) and NOT supported here!
-  if(readLE16() == 0x4D42) {  // BMP signature
-    (void)readLE32();         // Read & ignore file size
-    (void)readLE32();         // Read & ignore creator bytes
-    offset      = readLE32(); // Start of image data
+  if (readLE16() == 0x4D42)
+  {                      // BMP signature
+    (void)readLE32();    // Read & ignore file size
+    (void)readLE32();    // Read & ignore creator bytes
+    offset = readLE32(); // Start of image data
     // Read DIB header
-    headerSize  = readLE32();
-    bmpWidth    = readLE32();
-    bmpHeight   = readLE32();
+    headerSize = readLE32();
+    bmpWidth = readLE32();
+    bmpHeight = readLE32();
     // If bmpHeight is negative, image is in top-down order.
     // This is not canon but has been observed in the wild.
-    if(bmpHeight < 0) {
+    if (bmpHeight < 0)
+    {
       bmpHeight = -bmpHeight;
-      flip      =  false;
+      flip = false;
     }
-    planes      = readLE16();
-    depth       = readLE16(); // Bits per pixel
+    planes = readLE16();
+    depth = readLE16(); // Bits per pixel
     // Compression mode is present in later BMP versions (default = none)
-    if(headerSize > 12) compression = readLE32();
+    if (headerSize > 12)
+      compression = readLE32();
 
-    loadWidth   = bmpWidth;
-    loadHeight  = bmpHeight;
-    loadX       = 0;
-    loadY       = 0;
-    if(tft) {
+    loadWidth = bmpWidth;
+    loadHeight = bmpHeight;
+    loadX = 0;
+    loadY = 0;
+    if (tft)
+    {
       // Crop area to be loaded (if destination is TFT)
-      if(x < 0) {
-        loadX      = -x;
-        loadWidth +=  x;
-        x          =  0;
+      if (x < 0)
+      {
+        loadX = -x;
+        loadWidth += x;
+        x = 0;
       }
-      if(y < 0) {
-        loadY       = -y;
-        loadHeight +=  y;
-        y           =  0;
+      if (y < 0)
+      {
+        loadY = -y;
+        loadHeight += y;
+        y = 0;
       }
-      if((x + loadWidth ) > tft->width())  loadWidth  = tft->width()  - x;
-      if((y + loadHeight) > tft->height()) loadHeight = tft->height() - y;
+      if ((x + loadWidth) > tft->width())
+        loadWidth = tft->width() - x;
+      if ((y + loadHeight) > tft->height())
+        loadHeight = tft->height() - y;
     }
 
     // Currently only uncompressed BGR format is handled
-    if((planes == 1) && (depth == 24) && (compression == 0)) {
+    if ((planes == 1) && (depth == 24) && (compression == 0))
+    {
 
       // BMP rows are padded (if needed) to 4-byte boundary
       rowSize = (bmpWidth * 3 + 3) & ~3;
 
-      if(img) {
+      if (img)
+      {
         // Loading to RAM -- allocate GFX 16-bit canvas type
         status = IMAGE_ERR_MALLOC; // Assume won't fit to start
-        if((img->canvas.canvas16 = new GFXcanvas16(bmpWidth, bmpHeight))) {
+        if ((img->canvas.canvas16 = new GFXcanvas16(bmpWidth, bmpHeight)))
+        {
           dest = img->canvas.canvas16->getBuffer();
         }
         // Future: different allocations will take place depending on
         // image format being loaded.
       }
 
-      if(dest) { // Supported format, alloc OK, etc.
+      if (dest)
+      { // Supported format, alloc OK, etc.
         status = IMAGE_SUCCESS;
 
-        if((loadWidth > 0) && (loadHeight > 0)) { // Clip top/left
-          if(tft) {
+        if ((loadWidth > 0) && (loadHeight > 0))
+        { // Clip top/left
+          if (tft)
+          {
             tft->startWrite(); // Start SPI (regardless of transact)
             tft->setAddrWindow(x, y, loadWidth, loadHeight);
-          } else {
+          }
+          else
+          {
             img->format = IMAGE_16; // Is a GFX 16-bit canvas type
           }
 
-          for(row=0; row<loadHeight; row++) { // For each scanline...
+          for (row = 0; row < loadHeight; row++)
+          { // For each scanline...
 
             yield(); // Keep ESP8266 happy
 
@@ -374,27 +428,37 @@ ImageReturnCode Adafruit_ImageReader::coreBMP(
             // gritty details like cropping, flip and scanline padding.  Also,
             // the seek only takes place if the file position actually needs
             // to change (avoids a lot of cluster math in SD library).
-            if(flip) // Bitmap is stored bottom-to-top order (normal BMP)
+            if (flip) // Bitmap is stored bottom-to-top order (normal BMP)
               bmpPos = offset + (bmpHeight - 1 - (row + loadY)) * rowSize +
-                loadX * 3;
-            else     // Bitmap is stored top-to-bottom
+                       loadX * 3;
+            else // Bitmap is stored top-to-bottom
               bmpPos = offset + (row + loadY) * rowSize + loadX * 3;
-            if(file.position() != bmpPos) { // Need seek?
-              if(transact) tft->endWrite(); // End TFT SPI transaction
-              file.seek(bmpPos);            // Seek = SD transaction
-              srcidx = sizeof sdbuf;        // Force buffer reload
+            if (file.position() != bmpPos)
+            { // Need seek?
+              if (transact)
+                tft->endWrite();     // End TFT SPI transaction
+              file.seek(bmpPos);     // Seek = SD transaction
+              srcidx = sizeof sdbuf; // Force buffer reload
             }
-            for(col=0; col<loadWidth; col++) { // For each pixel...
-              if(srcidx >= sizeof sdbuf) {        // Time to load more data?
-                if(tft) {                         // Drawing to TFT?
-                  if(transact) tft->endWrite();   // End TFT SPI transaction
+            for (col = 0; col < loadWidth; col++)
+            { // For each pixel...
+              if (srcidx >= sizeof sdbuf)
+              { // Time to load more data?
+                if (tft)
+                { // Drawing to TFT?
+                  if (transact)
+                    tft->endWrite();              // End TFT SPI transaction
                   file.read(sdbuf, sizeof sdbuf); // Load from SD
-                  if(transact) tft->startWrite(); // Start TFT SPI transac
-                  if(destidx) {                   // If any buffered TFT data
+                  if (transact)
+                    tft->startWrite(); // Start TFT SPI transac
+                  if (destidx)
+                  {                                  // If any buffered TFT data
                     tft->writePixels(dest, destidx); // Write it now and
                     destidx = 0;                     // reset dest index
                   }
-                } else {                          // Canvas is much simpler,
+                }
+                else
+                {                                 // Canvas is much simpler,
                   file.read(sdbuf, sizeof sdbuf); // just load sdbuf
                 }                                 // (destidx never resets)
                 srcidx = 0;                       // Reset bmp buf index
@@ -407,18 +471,20 @@ ImageReturnCode Adafruit_ImageReader::coreBMP(
                                 ((g & 0xFC) << 3) |
                                 ((b & 0xF8) >> 3);
             } // end pixel loop
-            if(tft) {                            // Drawing to TFT?
-              if(destidx) {                      // Any remainders?
+            if (tft)
+            { // Drawing to TFT?
+              if (destidx)
+              {                                  // Any remainders?
                 tft->writePixels(dest, destidx); // Write to screen and
                 destidx = 0;                     // reset dest index
               }
               tft->endWrite(); // End TFT (regardless of transact)
             }
           } // end scanline loop
-        } // end top/left clip
-      } // end malloc check
-    } // end format check
-  } // end signature
+        }   // end top/left clip
+      }     // end malloc check
+    }       // end format check
+  }         // end signature
 
   file.close();
   return status;
@@ -436,24 +502,30 @@ ImageReturnCode Adafruit_ImageReader::coreBMP(
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::bmpDimensions(
-  char *filename, int32_t *width, int32_t *height) {
+    char *filename, int32_t *width, int32_t *height)
+{
 
   ImageReturnCode status = IMAGE_ERR_FILE_NOT_FOUND; // Guilty until innocent
 
-  if((file = SD.open(filename))) { // Open requested file on SD card
-    status = IMAGE_ERR_FORMAT;     // File's there, might not be BMP tho
-    if(readLE16() == 0x4D42) {     // BMP signature?
-      (void)readLE32();            // Read & ignore file size
-      (void)readLE32();            // Read & ignore creator bytes
-      (void)readLE32();            // Read & ignore position of image data
-      (void)readLE32();            // Read & ignore header size
-      if(width) *width = readLE32();
-      if(height) {
-        int32_t h = readLE32();    // Don't abs() this, may be a macro
-        if(h < 0) h = -h;          // Do manually instead
+  if ((file = SD.open(filename)))
+  {                            // Open requested file on SD card
+    status = IMAGE_ERR_FORMAT; // File's there, might not be BMP tho
+    if (readLE16() == 0x4D42)
+    {                   // BMP signature?
+      (void)readLE32(); // Read & ignore file size
+      (void)readLE32(); // Read & ignore creator bytes
+      (void)readLE32(); // Read & ignore position of image data
+      (void)readLE32(); // Read & ignore header size
+      if (width)
+        *width = readLE32();
+      if (height)
+      {
+        int32_t h = readLE32(); // Don't abs() this, may be a macro
+        if (h < 0)
+          h = -h; // Do manually instead
         *height = h;
       }
-      status = IMAGE_SUCCESS;      // YAY.
+      status = IMAGE_SUCCESS; // YAY.
     }
   }
 
@@ -469,7 +541,8 @@ ImageReturnCode Adafruit_ImageReader::bmpDimensions(
              native endianism. (BMP files use little-endian values.)
     @return  Unsigned 16-bit value, native endianism.
 */
-uint16_t Adafruit_ImageReader::readLE16(void) {
+uint16_t Adafruit_ImageReader::readLE16(void)
+{
 #if !defined(ESP32) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
   // Read directly into result -- BMP data and variable both little-endian.
   uint16_t result;
@@ -487,7 +560,8 @@ uint16_t Adafruit_ImageReader::readLE16(void) {
              native endianism. (BMP files use little-endian values.)
     @return  Unsigned 32-bit value, native endianism.
 */
-uint32_t Adafruit_ImageReader::readLE32(void) {
+uint32_t Adafruit_ImageReader::readLE32(void)
+{
 #if !defined(ESP32) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
   // Read directly into result -- BMP data and variable both little-endian.
   uint32_t result;
@@ -495,10 +569,10 @@ uint32_t Adafruit_ImageReader::readLE32(void) {
   return result;
 #else
   // Big-endian or unknown. Byte-by-byte read will perform reversal if needed.
-  return       file.read()        |
-    ((uint32_t)file.read() <<  8) |
-    ((uint32_t)file.read() << 16) |
-    ((uint32_t)file.read() << 24);
+  return file.read() |
+         ((uint32_t)file.read() << 8) |
+         ((uint32_t)file.read() << 16) |
+         ((uint32_t)file.read() << 24);
 #endif
 }
 
@@ -511,13 +585,14 @@ uint32_t Adafruit_ImageReader::readLE32(void) {
              Output stream (Serial default if unspecified).
     @return  None (void).
 */
-void Adafruit_ImageReader::printStatus(ImageReturnCode stat, Stream &stream) {
-  if(stat == IMAGE_SUCCESS)
+void Adafruit_ImageReader::printStatus(ImageReturnCode stat, Stream &stream)
+{
+  if (stat == IMAGE_SUCCESS)
     stream.println(F("Success!"));
-  else if(stat == IMAGE_ERR_FILE_NOT_FOUND)
+  else if (stat == IMAGE_ERR_FILE_NOT_FOUND)
     stream.println(F("File not found."));
-  else if(stat == IMAGE_ERR_FORMAT)
+  else if (stat == IMAGE_ERR_FORMAT)
     stream.println(F("Not a supported BMP variant."));
-  else if(stat == IMAGE_ERR_MALLOC)
+  else if (stat == IMAGE_ERR_MALLOC)
     stream.println(F("Malloc failed (insufficient RAM)."));
 }
