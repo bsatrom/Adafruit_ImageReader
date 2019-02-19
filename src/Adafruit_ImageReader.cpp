@@ -52,6 +52,8 @@
 #define LOADPIXELS 320 ///< 320 * 3 =  960 bytes
 #endif
 
+SdFat SD;
+
 // ADAFRUIT_IMAGE CLASS ****************************************************
 // This has been created as a class here rather than in Adafruit_GFX because
 // it's a new type returned specifically by the Adafruit_ImageReader class
