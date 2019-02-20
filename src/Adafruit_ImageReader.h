@@ -13,7 +13,7 @@
  * BSD license, all text here must be included in any redistribution.
  */
 
-#include <SDFat.h>
+#include <SdFat.h>
 #include "Adafruit_SPITFT.h"
 
 /** Status codes returned by drawBMP() and loadBMP() */
@@ -76,15 +76,15 @@ class Adafruit_ImageReader
 public:
   Adafruit_ImageReader(void);
   ~Adafruit_ImageReader(void);
-  ImageReturnCode drawBMP(char *filename, Adafruit_SPITFT &tft, SDFat SD,
+  ImageReturnCode drawBMP(char *filename, Adafruit_SPITFT &tft, SdFat &SD,
                           int16_t x, int16_t y, boolean transact = true);
-  ImageReturnCode loadBMP(char *filename, Adafruit_Image &img, SDFat SD);
-  ImageReturnCode bmpDimensions(char *filename, SDFat SD, int32_t *w, int32_t *h);
+  ImageReturnCode loadBMP(char *filename, Adafruit_Image &img, SdFat &SD);
+  ImageReturnCode bmpDimensions(char *filename, SdFat &SD, int32_t *w, int32_t *h);
   void printStatus(ImageReturnCode stat, Stream &stream = Serial);
 
 private:
   File file;
-  ImageReturnCode coreBMP(char *filename, Adafruit_SPITFT *tft, SDFat SD,
+  ImageReturnCode coreBMP(char *filename, Adafruit_SPITFT *tft, SdFat *SD,
                           uint16_t *dest, int16_t x, int16_t y, Adafruit_Image *img,
                           boolean transact);
   uint16_t readLE16(void);

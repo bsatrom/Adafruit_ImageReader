@@ -31,7 +31,7 @@
  * BSD license, all text here must be included in any redistribution.
  */
 
-#include "SDFat.h"
+#include "SdFat.h"
 #include "Adafruit_ImageReader.h"
 
 // Buffers in BMP draw function (to screen) require 5 bytes/pixel: 3 bytes
@@ -226,14 +226,14 @@ Adafruit_ImageReader::~Adafruit_ImageReader(void)
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::drawBMP(char *filename,
-                                              Adafruit_SPITFT &tft, SDFat SD, int16_t x, int16_t y, boolean transact)
+                                              Adafruit_SPITFT &tft, SdFat &SD, int16_t x, int16_t y, boolean transact)
 {
   uint16_t tftbuf[DRAWPIXELS]; // Temp space for buffering TFT data
   // Call core BMP-reading function, passing address to TFT object,
   // TFT working buffer, and X & Y position of top-left corner (image
   // will be cropped on load if necessary). Image pointer is NULL when
   // reading to TFT, and transact argument is passed through.
-  return coreBMP(filename, &tft, SDFat SD, tftbuf, x, y, NULL, transact);
+  return coreBMP(filename, &tft, &SD, tftbuf, x, y, NULL, transact);
 }
 
 /*!
@@ -250,14 +250,14 @@ ImageReturnCode Adafruit_ImageReader::drawBMP(char *filename,
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::loadBMP(
-    char *filename, Adafruit_Image &img, SDFat SD)
+    char *filename, Adafruit_Image &img, SdFat &SD)
 {
   // Call core BMP-reading function. TFT and working buffer are NULL
   // (unused and allocated in function, respectively), X & Y position are
   // always 0 because full image is loaded (RAM permitting). Adafruit_Image
   // argument is passed through, and SPI transactions are not needed when
   // loading to RAM (bus is not shared during load).
-  return coreBMP(filename, NULL, SDFat SD, NULL, 0, 0, &img, false);
+  return coreBMP(filename, NULL, &SD, NULL, 0, 0, &img, false);
 }
 
 /*!
@@ -290,7 +290,7 @@ ImageReturnCode Adafruit_ImageReader::loadBMP(
 ImageReturnCode Adafruit_ImageReader::coreBMP(
     char *filename,       // SD file to load
     Adafruit_SPITFT *tft, // Pointer to TFT object, or NULL if to image
-    SDFat *SD,
+    SdFat *SD,
     uint16_t *dest, // TFT working buffer, or NULL if to canvas
     int16_t x,      // Position if loading to TFT (else ignored)
     int16_t y,
@@ -331,7 +331,7 @@ ImageReturnCode Adafruit_ImageReader::coreBMP(
     return IMAGE_SUCCESS;
 
   // Open requested file on SD card
-  if (!(file = SD.open(filename)))
+  if (!(file = SD->open(filename)))
     return IMAGE_ERR_FILE_NOT_FOUND;
 
   // Parse BMP header. 0x4D42 (ASCII 'BM') is the Windows BMP signature.
@@ -503,7 +503,7 @@ ImageReturnCode Adafruit_ImageReader::coreBMP(
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::bmpDimensions(
-    char *filename, int32_t *width, int32_t *height)
+    char *filename, SdFat &SD, int32_t *width, int32_t *height)
 {
 
   ImageReturnCode status = IMAGE_ERR_FILE_NOT_FOUND; // Guilty until innocent
