@@ -76,15 +76,15 @@ class Adafruit_ImageReader
 public:
   Adafruit_ImageReader(void);
   ~Adafruit_ImageReader(void);
-  ImageReturnCode drawBMP(char *filename, Adafruit_SPITFT &tft, SDFat &SD,
+  ImageReturnCode drawBMP(char *filename, Adafruit_SPITFT &tft, SDFat SD,
                           int16_t x, int16_t y, boolean transact = true);
-  ImageReturnCode loadBMP(char *filename, Adafruit_Image &img, SDFat &SD);
-  ImageReturnCode bmpDimensions(char *filename, SDFat &SD, int32_t *w, int32_t *h);
+  ImageReturnCode loadBMP(char *filename, Adafruit_Image &img, SDFat SD);
+  ImageReturnCode bmpDimensions(char *filename, SDFat SD, int32_t *w, int32_t *h);
   void printStatus(ImageReturnCode stat, Stream &stream = Serial);
 
 private:
   File file;
-  ImageReturnCode coreBMP(char *filename, Adafruit_SPITFT *tft, SDFat &SD,
+  ImageReturnCode coreBMP(char *filename, Adafruit_SPITFT *tft, SDFat SD,
                           uint16_t *dest, int16_t x, int16_t y, Adafruit_Image *img,
                           boolean transact);
   uint16_t readLE16(void);

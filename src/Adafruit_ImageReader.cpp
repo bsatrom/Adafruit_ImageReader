@@ -31,7 +31,7 @@
  * BSD license, all text here must be included in any redistribution.
  */
 
-#include <SDFat.h>
+#include "SDFat.h"
 #include "Adafruit_ImageReader.h"
 
 // Buffers in BMP draw function (to screen) require 5 bytes/pixel: 3 bytes
@@ -226,14 +226,14 @@ Adafruit_ImageReader::~Adafruit_ImageReader(void)
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::drawBMP(char *filename,
-                                              Adafruit_SPITFT &tft, SDFat &SD, int16_t x, int16_t y, boolean transact)
+                                              Adafruit_SPITFT &tft, SDFat SD, int16_t x, int16_t y, boolean transact)
 {
   uint16_t tftbuf[DRAWPIXELS]; // Temp space for buffering TFT data
   // Call core BMP-reading function, passing address to TFT object,
   // TFT working buffer, and X & Y position of top-left corner (image
   // will be cropped on load if necessary). Image pointer is NULL when
   // reading to TFT, and transact argument is passed through.
-  return coreBMP(filename, &tft, SDFat & SD, tftbuf, x, y, NULL, transact);
+  return coreBMP(filename, &tft, SDFat SD, tftbuf, x, y, NULL, transact);
 }
 
 /*!
@@ -250,14 +250,14 @@ ImageReturnCode Adafruit_ImageReader::drawBMP(char *filename,
              completion, other values on failure).
 */
 ImageReturnCode Adafruit_ImageReader::loadBMP(
-    char *filename, Adafruit_Image &img, SDFat &SD)
+    char *filename, Adafruit_Image &img, SDFat SD)
 {
   // Call core BMP-reading function. TFT and working buffer are NULL
   // (unused and allocated in function, respectively), X & Y position are
   // always 0 because full image is loaded (RAM permitting). Adafruit_Image
   // argument is passed through, and SPI transactions are not needed when
   // loading to RAM (bus is not shared during load).
-  return coreBMP(filename, NULL, SDFat & SD, NULL, 0, 0, &img, false);
+  return coreBMP(filename, NULL, SDFat SD, NULL, 0, 0, &img, false);
 }
 
 /*!
