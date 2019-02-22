@@ -31,7 +31,6 @@
  * BSD license, all text here must be included in any redistribution.
  */
 
-#include "SdFat.h"
 #include "Adafruit_ImageReader.h"
 
 // Buffers in BMP draw function (to screen) require 5 bytes/pixel: 3 bytes

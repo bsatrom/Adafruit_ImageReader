@@ -13,7 +13,7 @@
  * BSD license, all text here must be included in any redistribution.
  */
 
-#include <SdFat.h>
+#include "SdFat.h"
 #include "Adafruit_SPITFT.h"
 
 /** Status codes returned by drawBMP() and loadBMP() */
